@@ -27,7 +27,7 @@ Simple, elegant, and beginner-friendly.
 
 ## 📸 Preview
 Here’s a preview of the app interface:
-![To-do list app](Screenshot.png)
+![To-do list app](./Screenshot.png)
 
 ---
 
