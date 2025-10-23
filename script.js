@@ -1,59 +1,66 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Wait for the DOM to load before running the script
-  const todoInput = document.getElementById("todo-input");
-  const addTaskBtn = document.getElementById("add-task-btn");
-  const todoList = document.getElementById("todo-list");
+  const taskInput = document.getElementById("taskInput");
+  const taskBtn = document.getElementById("addTaskBtn");
+  const taskList = document.getElementById("taskList");
 
-  let tasks = JSON.parse(localStorage.getItem("tasks")) || []; // Get tasks from local storage and parse it to JSON, if it's null, set it to an empty array
+  let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-  tasks.forEach((task) => renderTask(task)); // Render each task from the tasks array and pass it to the renderTask function
+  tasks.forEach((task) => renderTask(task));
 
-  addTaskBtn.addEventListener("click", () => {
-    const tasktext = todoInput.value.trim(); // Remove whitespace from the input after the user clicks the button
+  taskBtn.addEventListener("click", function () {
+    const taskText = taskInput.value.trim();
 
-    if (tasktext === "") return; // If the input is empty, do nothing
+    if (taskText === "") {
+      taskInput.classList.add("error");
+      taskInput.value = "";
+      taskInput.placeholder = "Please enter a task!";
+      setTimeout(() => {
+        taskInput.classList.remove("error");
+        taskInput.placeholder = "Enter a new task...";
+      }, 2000);
+      return;
+    }
 
-    const newtask = {
+    const newTask = {
       id: Date.now(),
-      text: tasktext,
+      text: taskText,
       completed: false,
-    }; // Create a new task object
-    tasks.push(newtask);
-    saveTasks(); // Save tasks to local storage
-    renderTask(newtask); // Render the new task
-    todoInput.value = ""; // Clear the input field
-    console.log(tasks); // Debugging to see the tasks array
+    };
+    tasks.push(newTask);
+    saveTasks();
+    renderTask(newTask);
+    taskInput.value = "";
+    console.log(tasks);
   });
 
   function renderTask(task) {
-    //console.log(task.text); // Debugging to see the task text
-    const li = document.createElement("li"); // Create a new list item element for each task
-    li.setAttribute("data-id", task.id); // Set the data-id attribute to the task id
-
-    if (task.completed) li.classList.add("completed"); // If the task is completed, add the completed class to the list item
+    const li = document.createElement("li");
+    li.setAttribute("data-id", task.id);
+    if (task.completed) li.classList.add("completed");
 
     li.innerHTML = `
-    <span>${task.text}</span>
-    <button>Delete</button>`; // Set the inner HTML of the list item
+      <span>${task.text}</span>
+      <button>delete</button>
+    `;
 
     li.addEventListener("click", (e) => {
-      if (e.target.tagName === "BUTTON") return; // If the target element is a button, do nothing
-      task.completed = !task.completed; // Toggle the completed property of the task object when the list item is clicked
-      li.classList.toggle("completed"); // Toggle the completed class of the list item
-      saveTasks(); // Save tasks to local storage
+      if (e.target.tagName === "BUTTON") return;
+      task.completed = !task.completed;
+      li.classList.toggle("completed");
+      saveTasks();
     });
 
     li.querySelector("button").addEventListener("click", (e) => {
-      e.stopPropagation(); // prevent toggling the completed class when the button is clicked
-      tasks = tasks.filter((t) => t.id !== task.id); // Filter out the task from the tasks array
-      li.remove(); // Remove the list item from the DOM
-      saveTasks(); // Save tasks to local storage
+      e.stopPropagation();
+      tasks = tasks.filter((t) => t.id !== task.id);
+      li.remove();
+      saveTasks();
     });
 
-    todoList.appendChild(li); // Append the list item to the todo list
+    taskList.appendChild(li);
   }
 
   function saveTasks() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
-  } // Save tasks to local storage and stringify it
-}); // End of DOMContentLoaded event listener
+  }
+});
