@@ -24,6 +24,7 @@ body {
   max-width: 420px;
   padding: 2rem 1.5rem;
   border-radius: 16px;
+  box-sizing: border-box;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   text-align: center;
   animation: fadeIn 0.6s ease-in-out;
@@ -41,6 +42,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   background: #f5f7fa;
   border-radius: 8px;
   padding: 0.4rem;
@@ -76,6 +78,7 @@ button {
   cursor: pointer;
   font-weight: 600;
   transition: all 0.3s ease;
+  box-sizing: border-box;
 }
 
 button:hover {
@@ -85,17 +88,24 @@ button:hover {
 
 /* Task list */
 ul {
+  max-width: 100%;
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-break: break-all;
 }
 
 li {
+  max-width: 100%;
   background: #adc1e92a;
   padding: 0.8rem 1rem;
   border-radius: 10px;
   display: flex;
+  box-sizing: border-box;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   transition: all 0.3s ease;
@@ -110,6 +120,8 @@ li:hover {
 li span {
   flex: 1;
   text-align: left;
+  font-size: 1rem;
+  padding-right: 10px;
 }
 
 li.completed {
@@ -125,6 +137,7 @@ li button {
   border-radius: 6px;
   cursor: pointer;
   transition: 0.3s;
+  box-sizing: border-box;
 }
 
 li button:hover {
@@ -154,8 +167,12 @@ li button:hover {
 
 /* 📱 Responsive */
 @media (max-width: 480px) {
+  body {
+    padding: 0.5rem;
+  }
   .todo-container {
-    padding: 1.5rem 1rem;
+    padding: 1.5rem 0.5rem;
+    max-width: 100%;
   }
 
   .title {
@@ -170,5 +187,12 @@ li button:hover {
     padding: 0.5rem 0.3rem;
     font-size: 12px;
     font-weight: 500;
+  }
+  li span {
+    font-size: 14px;
+  }
+  li button {
+    padding: 0.3rem 0.5rem;
+    font-size: 12px;
   }
 }
