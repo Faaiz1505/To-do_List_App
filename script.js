@@ -7,6 +7,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   tasks.forEach((task) => renderTask(task));
 
+  taskInput.addEventListener("keypress", function (e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      taskBtn.click();
+    }
+  });
+
   taskBtn.addEventListener("click", function () {
     const taskText = taskInput.value.trim();
 
